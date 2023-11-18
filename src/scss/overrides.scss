@@ -1,0 +1,10 @@
+// global variables
+$enable-rounded: false;
+
+// theme color variables
+$primary: #03794b;
+$secondary: rgb(234, 255, 247);
+$light: #fff9f1;
+
+/* import bootstrap to set changes */
+@import '../node_modules/bootstrap/scss/bootstrap';

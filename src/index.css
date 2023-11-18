@@ -1,0 +1,16 @@
+@import './scss/overrides.scss';
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+/* :root {
+	--bs-body-font-family: 'Poppins', sans-serif;
+} */
+
+body {
+	font-family: 'Poppins', sans-serif;
+}
+
+.App {
+	min-height: 100vh;
+}
+
