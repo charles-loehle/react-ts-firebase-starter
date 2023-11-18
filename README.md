@@ -13,6 +13,6 @@ Rename .env.local.examle file to .env.local and enter firebase SDK info.
 Afterwards run
 
 ```bash
-npm npm run dev
+npm run dev
 ```
 
