@@ -4,6 +4,7 @@ import { Trash } from 'react-bootstrap-icons';
 import { doc, deleteDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 type Movie = {
 	title: string;
@@ -17,11 +18,28 @@ type MovieListProps = {
 };
 
 // DELETE - destroy - delete an item by id
-const handleDelete = async (id: string) => {
-	console.log('delete movie id: ' + id);
-	const movie = doc(db, 'movies', id);
-	await deleteDoc(movie);
-	console.log(id + ' deleted!');
+const handleDelete = (id: string) => {
+	Swal.fire({
+		icon: 'warning',
+		title: 'Are you sure?',
+		text: "You won't be able to revert this!",
+		showCancelButton: true,
+		confirmButtonText: 'Yes, delete it!',
+		cancelButtonText: 'No, cancel!',
+	}).then(result => {
+		if (result.isConfirmed) {
+			const movie = doc(db, 'movies', id);
+			deleteDoc(movie);
+
+			Swal.fire({
+				icon: 'success',
+				title: 'Deleted!',
+				text: 'Data has been deleted.',
+				showConfirmButton: false,
+				timer: 1500,
+			});
+		}
+	});
 };
 
 // GET - index - show all items

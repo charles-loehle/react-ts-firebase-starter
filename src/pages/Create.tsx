@@ -7,11 +7,12 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../firebase/config';
+import Swal from 'sweetalert2';
 
 export default function Create() {
 	const navigate = useNavigate();
 	const [title, setTitle] = useState<string>('');
-	const [oscar, setOscar] = useState<boolean>(false);
+	const [receivedAnOscar, setReceivedAnOscar] = useState<boolean>(false);
 	const [releaseDate, setReleaseDate] = useState<number | undefined>(0);
 	const [isPending, setIsPending] = useState<boolean>(false);
 	const [error, setError] = useState<string>('');
@@ -19,12 +20,29 @@ export default function Create() {
 	// POST - store - create new item
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
+
+		if (!title || typeof receivedAnOscar !== 'boolean' || !releaseDate) {
+			return Swal.fire({
+				icon: 'error',
+				title: 'Error!',
+				text: 'All fields are required.',
+				showConfirmButton: true,
+			});
+		}
+
 		try {
 			//console.log('Submitted');
 			await addDoc(collection(db, 'movies'), {
 				title: title,
 				releaseDate: releaseDate,
-				receivedAnOscar: oscar,
+				receivedAnOscar: receivedAnOscar,
+			});
+			Swal.fire({
+				icon: 'success',
+				title: 'Added!',
+				text: 'New data has been Added.',
+				showConfirmButton: false,
+				timer: 1500,
 			});
 			navigate('/');
 		} catch (error) {
@@ -75,7 +93,7 @@ export default function Create() {
 						<Form.Group className="mb-3" controlId="formOscar">
 							<Form.Check // prettier-ignore
 								type="checkbox"
-								onChange={e => setOscar(e.target.checked)}
+								onChange={e => setReceivedAnOscar(e.target.checked)}
 								id="checkbox"
 								label="Got an oscar?"
 							/>

@@ -7,6 +7,7 @@ import { doc, onSnapshot, updateDoc } from 'firebase/firestore';
 import { db } from '../firebase/config';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 type Movie = {
 	title: string;
@@ -53,8 +54,14 @@ export default function Movie() {
 	// PUT - update - update movie
 	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
+
 		if (!title || typeof receivedAnOscar !== 'boolean' || !releaseDate) {
-			alert('All fields are required');
+			return Swal.fire({
+				icon: 'error',
+				title: 'Error!',
+				text: 'All fields are required.',
+				showConfirmButton: true,
+			});
 		}
 
 		const movie = {
@@ -71,6 +78,13 @@ export default function Movie() {
 					...movie,
 				});
 			}
+			Swal.fire({
+				icon: 'success',
+				title: 'Updated!',
+				text: 'Data has been updated.',
+				showConfirmButton: false,
+				timer: 1500,
+			});
 			navigate('/');
 		} catch (err) {
 			console.error(err);
