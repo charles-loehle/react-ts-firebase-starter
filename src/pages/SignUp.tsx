@@ -2,6 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import OAuth from '../components/OAuth';
 import { useState, FormEvent } from 'react';
 import { auth } from '../firebase/config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
@@ -113,9 +114,12 @@ export default function SignUp() {
 							/>
 						</Form.Group>
 
-						<Button variant="outline-primary" type="submit">
-							Submit
-						</Button>
+						<div className="d-inline-flex gap-2 mb-5 align-items-center">
+							<Button variant="outline-primary" type="submit">
+								Submit
+							</Button>
+							<OAuth />
+						</div>
 					</Form>
 				</Card.Body>
 			</Card>

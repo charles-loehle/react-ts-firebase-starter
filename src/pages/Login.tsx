@@ -2,7 +2,7 @@ import Container from 'react-bootstrap/Container';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Card from 'react-bootstrap/Card';
-//import { useNavigate } from 'react-router-dom';
+import OAuth from '../components/OAuth';
 import { useState, FormEvent } from 'react';
 import { auth } from '../firebase/config';
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -63,7 +63,7 @@ export default function Login() {
 					},
 				});
 			} else {
-				console.error('An unexpected error occurred during sign up.');
+				console.error('An unexpected error occurred during log in.');
 			}
 		}
 	};
@@ -98,9 +98,12 @@ export default function Login() {
 							/>
 						</Form.Group>
 
-						<Button variant="outline-primary" type="submit">
-							Submit
-						</Button>
+						<div className="d-inline-flex gap-2 mb-5 align-items-center">
+							<Button variant="outline-primary" type="submit">
+								Submit
+							</Button>
+							<OAuth />
+						</div>
 					</Form>
 				</Card.Body>
 			</Card>
