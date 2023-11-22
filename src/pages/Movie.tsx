@@ -86,8 +86,26 @@ export default function Movie() {
 				timer: 1500,
 			});
 			navigate('/');
-		} catch (err) {
-			console.error(err);
+		} catch (error) {
+			if (error instanceof Error) {
+				console.log(error.message);
+				if (error.message === 'Missing or insufficient permissions.') {
+					Swal.fire({
+						icon: 'error',
+						title: 'Error!',
+						text: 'You are not authorized to do that.',
+						showConfirmButton: true,
+					});
+					navigate('/');
+				} else {
+					Swal.fire({
+						icon: 'error',
+						title: 'Error!',
+						text: 'An unexpected error occured.',
+						showConfirmButton: true,
+					});
+				}
+			}
 		}
 	};
 

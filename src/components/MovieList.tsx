@@ -18,20 +18,22 @@ type MovieListProps = {
 };
 
 // DELETE - destroy - delete an item by id
-const handleDelete = (id: string) => {
-	Swal.fire({
-		icon: 'warning',
-		title: 'Are you sure?',
-		text: "You won't be able to revert this!",
-		showCancelButton: true,
-		confirmButtonText: 'Yes, delete it!',
-		cancelButtonText: 'No, cancel!',
-	}).then(result => {
+const handleDelete = async (id: string) => {
+	try {
+		const result = await Swal.fire({
+			icon: 'warning',
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			showCancelButton: true,
+			confirmButtonText: 'Yes, delete it!',
+			cancelButtonText: 'No, cancel!',
+		});
+
 		if (result.isConfirmed) {
 			const movie = doc(db, 'movies', id);
-			deleteDoc(movie);
+			await deleteDoc(movie);
 
-			Swal.fire({
+			await Swal.fire({
 				icon: 'success',
 				title: 'Deleted!',
 				text: 'Data has been deleted.',
@@ -39,7 +41,29 @@ const handleDelete = (id: string) => {
 				timer: 1500,
 			});
 		}
-	});
+	} catch (error) {
+		console.log(error);
+		if (error instanceof Error) {
+			console.error(error.message);
+			if (error instanceof Error) {
+				if (error.message === 'Missing or insufficient permissions.') {
+					await Swal.fire({
+						icon: 'error',
+						title: 'Error!',
+						text: 'You are not authorized to do that.',
+						showConfirmButton: true,
+					});
+				} else {
+					await Swal.fire({
+						icon: 'error',
+						title: 'Error!',
+						text: 'An unexpected error occurred.',
+						showConfirmButton: true,
+					});
+				}
+			}
+		}
+	}
 };
 
 // GET - index - show all items
